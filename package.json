@@ -1,0 +1,24 @@
+{
+  "name": "format-curl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megatolya/format-curl.git"
+  },
+  "keywords": [
+    "curl",
+    "request",
+    "format"
+  ],
+  "author": "Anatoly Ostrovsky <forgetthisbox@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/megatolya/format-curl/issues"
+  },
+  "homepage": "https://github.com/megatolya/format-curl#readme"
+}
