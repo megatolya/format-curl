@@ -2,6 +2,12 @@
 
 Format curl execution from request params
 
+## Install
+
+```shell
+npm install --save format-curl
+```
+
 ## Usage
 
 ```js
