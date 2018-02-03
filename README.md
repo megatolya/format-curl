@@ -2,7 +2,7 @@
 
 Format curl execution from request params
 
-## Install
+## Installation
 
 ```shell
 npm install --save format-curl
