@@ -38,3 +38,5 @@ See `test.js` for more examples!
 ## TODO
 * [URL](https://nodejs.org/api/url.html#url_class_url) class as param
 * host/port/scheme/path/hash as params
+* user-argent, cookies as a params (and as curl arguments)
+
