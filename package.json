@@ -1,7 +1,7 @@
 {
   "name": "format-curl",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "Format curl execution from request params",
   "main": "index.js",
   "scripts": {
     "test": "node ./test.js"
@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/megatolya/format-curl/issues"
   },
-  "homepage": "https://github.com/megatolya/format-curl#readme"
+  "homepage": "https://github.com/megatolya/format-curl#readme",
+  "devDependencies": {
+    "colors": "^1.1.2",
+    "diff": "^3.4.0"
+  }
 }

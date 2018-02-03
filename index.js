@@ -7,15 +7,24 @@ module.exports = ({
     query,
     headers,
     body,
-    method
+    method,
+    args = []
 }) => {
-    let urlWithQuery = query
+    let urlWithQuery = query && Object.keys(query).length
         ? url + '?' + querystring.stringify(query)
         : url;
-    let res = `curl "${urlWithQuery}"`;
+    let res = 'curl';
 
-    if (headers) {
-        const headersStrings = Object.keys(headers).map(headerName => {
+    if (args && args.length) {
+        res = `${res} ${args.join(' ')}`;
+    }
+
+    res = `${res} "${urlWithQuery}"`;
+
+    const headersNames = Object.keys(headers || {});
+
+    if (headers && headersNames.length) {
+        const headersStrings = headersNames.map(headerName => {
             const headerValue = headers[headerName].replace(/"/g, '\"');
             return `-H "${headerName}: ${headerValue}"`;
         });
