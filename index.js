@@ -25,7 +25,9 @@ module.exports = ({
 
     if (headers && headersNames.length) {
         const headersStrings = headersNames.map(headerName => {
-            const headerValue = headers[headerName].replace(/"/g, '\"');
+            const headerValue = typeof headers[headerName] === 'string'
+                ? headers[headerName].replace(/"/g, '\"')
+                : headers[headerName];
             return `-H "${headerName}: ${headerValue}"`;
         });
         res += ` ${headersStrings.join(' ')}`;
