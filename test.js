@@ -136,6 +136,15 @@ const testCases = [
             method: 'PUT',
             args: ['-vvv']
         }
+    ],
+    [
+        `curl "https://myhost.com" -H "x-header: undefined"`,
+        {
+            url: 'https://myhost.com',
+            headers: {
+                'x-header': undefined
+            }
+        }
     ]
 ];
 
