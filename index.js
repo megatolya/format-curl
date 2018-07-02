@@ -34,6 +34,10 @@ module.exports = ({
     }
 
     if (body) {
+        if (typeof body !== 'string') {
+            body = JSON.stringify(body);
+        }
+
         res += ` --data '${body.replace(/"/g, '\"')}'`;
     }
 

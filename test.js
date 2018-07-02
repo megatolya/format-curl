@@ -145,6 +145,15 @@ const testCases = [
                 'x-header': undefined
             }
         }
+    ],
+    [
+        `curl "https://myhost.com" --data '{"foo":"bar"}'`,
+        {
+            url: 'https://myhost.com',
+            body: {
+                foo: 'bar',
+            },
+        }
     ]
 ];
 
