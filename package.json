@@ -1,6 +1,6 @@
 {
   "name": "format-curl",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Format curl execution from request params",
   "main": "index.js",
   "scripts": {
