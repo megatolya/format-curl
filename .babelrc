@@ -1,0 +1,21 @@
+{
+  "env": {
+    "test": {
+      "presets": [
+        ["env", {
+          "exclude": [
+            "babel-plugin-transform-es2015-typeof-symbol"
+          ]
+        }]
+      ]
+    }
+  },
+  "presets": [
+    ["env", {
+      "exclude": [
+        "babel-plugin-transform-es2015-typeof-symbol"
+      ],
+      "modules": false
+    }]
+  ]
+}

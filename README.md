@@ -33,10 +33,8 @@ console.log(curl(params));
 // curl -vvv "https://myhost.com?param=value" -H "x-header: test" -H "x-header2: test2" --data '{"param":"123"}' -X PUT
 ```
 
-See `test.js` for more examples!
+See `test/index.test.js` for more examples!
 
 ## TODO
 * [URL](https://nodejs.org/api/url.html#url_class_url) class as param
-* host/port/scheme/path/hash as params
 * user-argent, cookies as a params (and as curl arguments)
-
