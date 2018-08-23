@@ -1,6 +1,8 @@
-import { stringify } from 'querystring';
+'use strict';
 
-export default function formatCurl(params) {
+const { stringify } = require('querystring');
+
+module.exports = function formatCurl(params) {
     let result = 'curl';
 
     if (typeof params === 'string') {
@@ -81,4 +83,4 @@ export default function formatCurl(params) {
     }
 
     return result;
-}
+};

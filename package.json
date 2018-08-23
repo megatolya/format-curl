@@ -2,7 +2,7 @@
     "name": "format-curl",
     "version": "1.1.1",
     "description": "Format curl execution from request params",
-    "main": "index.js",
+    "main": "src/index.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/megatolya/format-curl.git"
@@ -26,6 +26,7 @@
         "jest": "^23.5.0",
         "rollup": "^0.64.1",
         "rollup-plugin-babel": "^3.0.7",
+        "rollup-plugin-commonjs": "^9.1.5",
         "rollup-plugin-node-builtins": "^2.1.2",
         "rollup-plugin-uglify": "^4.0.0"
     },

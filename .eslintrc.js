@@ -8,10 +8,6 @@ module.exports = {
         node: true,
     },
 
-    parserOptions: {
-        sourceType: 'module',
-    },
-
     rules: {
         // possible errors
         'for-direction': 2,
@@ -109,7 +105,7 @@ module.exports = {
         'no-unused-labels': 2,
         'no-useless-call': 2,
         'no-useless-concat': 2,
-        'no-useless-escape': 2,
+        'no-useless-escape': 0,
         'no-useless-return': 2,
         'wrap-iife': [2, 'inside'],
         'yoda': [2, 'never', { exceptRange: true }],

@@ -1,4 +1,6 @@
-import formatCurl from '../src';
+'use strict';
+
+const formatCurl = require('../src');
 
 const testCases = [
     [
