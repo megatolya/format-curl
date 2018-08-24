@@ -13,11 +13,8 @@ npm install --save format-curl
 ```js
 import curl from 'format-curl';
 
-const params = {
-    url: 'https://myhost.com',
-    query: {
-        param: 'value'
-    },
+const url = 'https://myhost.com?param=value';
+const options = {
     headers: {
         'x-header': 'test',
         'x-header2': 'test2'
@@ -29,14 +26,11 @@ const params = {
     args: ['-vvv']
 };
 
-console.log(curl(params));
+console.log(curl(url, options));
 // curl -vvv "https://myhost.com?param=value" -H "x-header: test" -H "x-header2: test2" --data '{"param":"123"}' -X PUT
 ```
 
-See `test.js` for more examples!
+See `test/index.test.js` for more examples!
 
 ## TODO
-* [URL](https://nodejs.org/api/url.html#url_class_url) class as param
-* host/port/scheme/path/hash as params
 * user-argent, cookies as a params (and as curl arguments)
-
