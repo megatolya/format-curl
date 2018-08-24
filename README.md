@@ -32,5 +32,20 @@ console.log(curl(url, options));
 
 See `test/index.test.js` for more examples!
 
+## Publish
+
+Build package and publish under `beta` tag:
+
+```bash
+npm run build && npm publish --tag beta
+```
+
+Now you can install it using published version (`npm install format-curl@<version>`) and test it. When you finish, add a `latest` tag to the published version:
+
+```bash
+npm dist-tag rm format-curl beta
+npm dist-tag add format-curl@<version> latest
+```
+
 ## TODO
 * user-argent, cookies as a params (and as curl arguments)
