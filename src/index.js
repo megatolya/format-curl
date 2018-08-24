@@ -2,62 +2,83 @@
 
 const { stringify } = require('querystring');
 
-module.exports = function formatCurl(params) {
+module.exports = function formatCurl(url, options) {
     let result = 'curl';
-
-    if (typeof params === 'string') {
-        return `${result} "${params}"`;
-    } else if (typeof params !== 'object' || params === null) {
-        throw new TypeError('"params" should be a string or an object');
-    }
 
     const {
         args,
         body,
         headers,
         method,
-    } = params;
+    } = options || {};
 
     if (Array.isArray(args) && args.length > 0) {
         result = `${result} ${args.join(' ')}`;
     }
 
-    let protocol = params.protocol || '';
-    const pathname = params.pathname || '';
-    const hash = params.hash || '';
-    let host = params.host || '';
-    let query = params.query || '';
-
-    const {
-        hostname,
-        port,
-    } = params;
-
-    if (!host && hostname) {
-        host = hostname.indexOf(':') > -1 // ipv6
-            ? `[${hostname}]`
-            : hostname;
-
-        if (port) {
-            host += `:${port}`;
+    if (typeof url === 'string') {
+        result += ` "${url}"`;
+    } else if (typeof URL === 'function' && url instanceof URL) { // WHATWG URL
+        result += ` "${url.toString()}"`;
+    } else if (url !== null && typeof url === 'object') { // urlObject
+        let auth = url.auth || '';
+        if (auth) {
+            auth += '@';
         }
+
+        const hostname = url.hostname || '';
+        let hash = url.hash || '';
+        let host = url.host || '';
+        let pathname = url.pathname || '';
+        let protocol = url.protocol || '';
+        let query = url.query || '';
+
+        if (host) {
+            host = auth + host;
+        } else if (hostname) {
+            host = auth + (
+                hostname.indexOf(':') > -1
+                    ? `[${hostname}]` // ipv6
+                    : hostname
+            );
+
+            if (url.port) {
+                host += `:${url.port}`;
+            }
+        }
+
+        if (typeof query === 'object') {
+            query = stringify(query);
+        }
+
+        let search = url.search || (query && (`?${query}`)) || '';
+
+        if (protocol && protocol.charCodeAt(protocol.length - 1) !== 58) { /* : */
+            protocol += ':';
+        }
+
+        if (url.slashes || /^(file|ftp|gopher|https?):?$/.test(protocol)) {
+            if (
+                (url.slashes || host) &&
+                pathname && pathname.charCodeAt(0) !== 47
+            ) {
+                pathname = `/${pathname}`;
+            }
+
+            host = `//${host}`;
+        }
+
+        if (hash && hash.charCodeAt(0) !== 35) {
+            hash = `#${hash}`;
+        }
+
+        if (search && search.charCodeAt(0) !== 63) {
+            search = `?${search}`;
+        }
+
+        const stringUrl = (protocol + host + pathname + search + hash) || url.href || '';
+        result += ` "${stringUrl}"`;
     }
-
-    if (typeof query === 'object') {
-        query = stringify(query);
-    }
-
-    const search = params.search || (query && (`?${query}`)) || '';
-
-    if (protocol && protocol.charCodeAt(protocol.length - 1) !== 58) {
-        protocol += ':';
-    }
-
-    const url = (((protocol + host) || params.origin || '') + pathname + search + hash)
-        || params.href
-        || params.url;
-
-    result = `${result} "${url}"`;
 
     if (headers !== null && typeof headers === 'object') {
         const headersStrings = Object.keys(headers).map(headerName => {

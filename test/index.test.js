@@ -1,163 +1,188 @@
 'use strict';
 
 const formatCurl = require('../src');
+const url = require('url');
 
 const testCases = [
     [
         'curl "https://myhost.com"',
-        {
-            url: 'https://myhost.com',
-        },
+        'https://myhost.com',
     ],
     [
-        'curl "https://myhost.com" -X POST',
+        'curl -v "https://myhost.com" -H "accept: application/json" -H "content-type: application/json" --data \'{"foo":"bar"}\' -X POST',
+        'https://myhost.com',
         {
-            url: 'https://myhost.com',
+            args: ['-v'],
+            body: { foo: 'bar' },
+            headers: { 'accept': 'application/json', 'content-type': 'application/json' },
             method: 'post',
+        },
+    ],
+
+    // WHATWG URL
+    [
+        'curl "https://myhost.com/"',
+        new URL('https://myhost.com'),
+    ],
+
+    // urlObject
+    [
+        'curl "https://myhost.com/#foo"',
+        url.parse('https://myhost.com#foo'),
+    ],
+    [
+        'curl "https://myhost.com"',
+        {
+            protocol: 'https',
+            host: 'myhost.com',
         },
     ],
     [
         'curl "https://myhost.com"',
         {
-            origin: 'https://myhost.com',
+            protocol: 'https:',
+            host: 'myhost.com',
+        },
+    ],
+    [
+        'curl "https://abc.com"',
+        {
+            protocol: 'https',
+            host: 'abc.com',
+            hostname: 'myhost.com',
+            port: 80,
+        },
+    ],
+    [
+        'curl "https://myhost.com"',
+        {
+            protocol: 'https',
+            hostname: 'myhost.com',
+        },
+    ],
+    [
+        'curl "https://myhost.com:80"',
+        {
+            protocol: 'https',
+            hostname: 'myhost.com',
+            port: 80,
+        },
+    ],
+    [
+        'curl "https://myhost.com/dd"',
+        {
+            protocol: 'https',
+            host: 'myhost.com',
+            pathname: 'dd',
+        },
+    ],
+    [
+        'curl "https://myhost.com"',
+        {
+            protocol: 'https',
+            host: 'myhost.com',
             query: {},
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures"',
+        'curl "https://myhost.com?foo=bar"',
         {
-            origin: 'https://myhost.com',
+            protocol: 'https',
+            host: 'myhost.com',
             query: {
-                search: 'pictures',
+                foo: 'bar',
             },
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures"',
+        'curl "https://myhost.com?foo=bar"',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-            },
-            headers: {},
+            protocol: 'https',
+            host: 'myhost.com',
+            query: 'foo=bar',
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures" -H "x-header: test"',
+        'curl "https://myhost.com?foo=bar"',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-            },
-            headers: {
-                'x-header': 'test',
-            },
+            protocol: 'https',
+            host: 'myhost.com',
+            search: 'foo=bar',
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures" -H "x-header: test" -H "x-header2: test2"',
+        'curl "https://myhost.com?foo=bar"',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-            },
-            headers: {
-                'x-header': 'test',
-                'x-header2': 'test2',
-            },
+            protocol: 'https',
+            host: 'myhost.com',
+            search: '?foo=bar',
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures&search2=pictures2" -H "x-header: test" -H "x-header2: test2"',
+        'curl "https://myhost.com#abc"',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-                search2: 'pictures2',
-            },
-            headers: {
-                'x-header': 'test',
-                'x-header2': 'test2',
-            },
+            protocol: 'https',
+            host: 'myhost.com',
+            hash: 'abc',
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures&search2=pictures2" -H "x-header: test" -H "x-header2: test2" --data \'{"param":"123"}\'',
+        'curl "https://myhost.com#abc"',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-                search2: 'pictures2',
-            },
-            headers: {
-                'x-header': 'test',
-                'x-header2': 'test2',
-            },
-            body: JSON.stringify({
-                param: '123',
-            }),
+            protocol: 'https',
+            host: 'myhost.com',
+            hash: '#abc',
+        },
+    ],
+
+    // options
+    [
+        'curl -v -L "https://myhost.com"',
+        'https://myhost.com',
+        {
+            args: ['-v', '-L'],
         },
     ],
     [
-        'curl "https://myhost.com?search=pictures&search2=pictures2" -H "x-header: test" -H "x-header2: test2" --data \'{"param":"123"}\' -X PUT',
+        'curl "https://myhost.com" -X POST',
+        'https://myhost.com',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-                search2: 'pictures2',
-            },
-            headers: {
-                'x-header': 'test',
-                'x-header2': 'test2',
-            },
-            body: JSON.stringify({
-                param: '123',
-            }),
-            method: 'PUT',
+            method: 'post',
         },
     ],
     [
-        'curl -vvv "https://myhost.com?search=pictures&search2=pictures2" -H "x-header: test" -H "x-header2: test2" --data \'{"param":"123"}\' -X PUT',
+        'curl "https://myhost.com" --data \'foo=bar\' -X POST',
+        'https://myhost.com',
         {
-            origin: 'https://myhost.com',
-            query: {
-                search: 'pictures',
-                search2: 'pictures2',
-            },
-            headers: {
-                'x-header': 'test',
-                'x-header2': 'test2',
-            },
-            body: JSON.stringify({
-                param: '123',
-            }),
-            method: 'PUT',
-            args: ['-vvv'],
+            method: 'post',
+            body: 'foo=bar',
         },
     ],
     [
-        'curl "https://myhost.com" -H "x-header: undefined"',
+        'curl "https://myhost.com" --data \'{"foo":"bar"}\' -X POST',
+        'https://myhost.com',
         {
-            url: 'https://myhost.com',
-            headers: {
-                'x-header': undefined,
-            },
-        },
-    ],
-    [
-        'curl "https://myhost.com" --data \'{"foo":"bar"}\'',
-        {
-            url: 'https://myhost.com',
+            method: 'post',
             body: {
                 foo: 'bar',
             },
         },
     ],
+    [
+        'curl "https://myhost.com" -H "x-header: test" -H "x-header2: test2"',
+        'https://myhost.com',
+        {
+            headers: {
+                'x-header': 'test',
+                'x-header2': 'test2',
+            },
+        },
+    ],
 ];
 
-testCases.forEach(([expectation, params]) => {
+testCases.forEach(([expectation, url, options]) => {
     test(expectation, () => {
-        const reality = formatCurl(params);
+        const reality = formatCurl(url, options);
         expect(reality).toBe(expectation);
     });
 });
