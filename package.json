@@ -1,6 +1,6 @@
 {
     "name": "format-curl",
-    "version": "1.1.1",
+    "version": "2.0.0",
     "description": "Format curl execution from request params",
     "main": "lib/index.js",
     "module": "src/index.js",
@@ -35,6 +35,7 @@
     "scripts": {
         "build": "rollup -c",
         "lint": "eslint {src,test} *.js",
+        "shipit": "npm run build && npm publish --tag beta",
         "test": "jest"
     }
 }
