@@ -1,9 +1,8 @@
 'use strict';
 
-const commonjs = require('rollup-plugin-commonjs');
-const babel = require('rollup-plugin-babel');
-const builtins = require('rollup-plugin-node-builtins');
-const { uglify } = require('rollup-plugin-uglify');
+import babel from 'rollup-plugin-babel';
+import builtins from 'rollup-plugin-node-builtins';
+import { uglify } from 'rollup-plugin-uglify';
 
 module.exports = [
     {
@@ -14,7 +13,6 @@ module.exports = [
             name: 'formatCurl',
         },
         plugins: [
-            commonjs(),
             builtins(),
             babel(),
         ],
@@ -27,10 +25,17 @@ module.exports = [
             name: 'formatCurl',
         },
         plugins: [
-            commonjs(),
             builtins(),
             babel(),
             uglify(),
         ],
+    },
+    {
+        input: 'src/index.js',
+        output: {
+            file: 'lib/index.js',
+            format: 'cjs',
+        },
+        plugins: [],
     },
 ];

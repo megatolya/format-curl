@@ -1,8 +1,8 @@
 'use strict';
 
-const { stringify } = require('querystring');
+import { stringify } from 'querystring';
 
-module.exports = function formatCurl(url, options) {
+export default function formatCurl(url, options) {
     let result = 'curl';
 
     const {
@@ -104,4 +104,4 @@ module.exports = function formatCurl(url, options) {
     }
 
     return result;
-};
+}

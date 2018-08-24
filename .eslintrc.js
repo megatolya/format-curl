@@ -8,6 +8,10 @@ module.exports = {
         node: true,
     },
 
+    parserOptions: {
+        sourceType: 'module',
+    },
+
     rules: {
         // possible errors
         'for-direction': 2,

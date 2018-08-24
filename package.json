@@ -2,7 +2,8 @@
     "name": "format-curl",
     "version": "1.1.1",
     "description": "Format curl execution from request params",
-    "main": "src/index.js",
+    "main": "lib/index.js",
+    "module": "src/index.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/megatolya/format-curl.git"

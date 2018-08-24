@@ -1,7 +1,7 @@
 'use strict';
 
-const formatCurl = require('../src');
-const url = require('url');
+import formatCurl from '../src/index';
+import url from 'url';
 
 const testCases = [
     [
