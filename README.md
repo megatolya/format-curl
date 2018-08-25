@@ -4,8 +4,17 @@ Format curl execution from request params
 
 ## Installation
 
+from npm
+
 ```shell
 npm install --save format-curl
+```
+
+from unpkg
+
+```html
+<script src="https://unpkg.com/format-curl@2.0.0/dist/index.js"></script>
+<script src="https://unpkg.com/format-curl@2.0.0/dist/index.min.js"></script>
 ```
 
 ## Usage
@@ -31,6 +40,40 @@ console.log(curl(url, options));
 ```
 
 See `test/index.test.js` for more examples!
+
+### API
+
+#### curl(url, [options])
+
+Returns a string with a resulting curl command.
+
+##### url
+Type: `string` `Object`
+
+The URL to request, as a string or a [WHATWG URL](https://nodejs.org/api/url.html#url_class_url).
+
+##### options
+Type: `Object`
+
+###### headers
+Type: `Object`
+
+Request headers.
+
+###### method
+Type: `string`
+
+Request method.
+
+###### body
+Type: `string` `Object`
+
+Request body. If you provide an object, it will be serialized via `JSON.stringify`.
+
+###### args
+Type: `Array`
+
+Curl arguments.
 
 ## Publish
 
