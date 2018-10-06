@@ -1,5 +1,5 @@
 import encode from './encode';
-import { isObject } from './utils';
+import { isObject, isString } from './utils';
 
 export default function normalizeUrl(url) {
     if (url instanceof URL) {
@@ -60,7 +60,7 @@ export default function normalizeUrl(url) {
         return urlInstance;
     }
 
-    if (typeof url === 'string' && url.length > 0) {
+    if (isString(url) && url.length > 0) {
         return new URL(url);
     }
 

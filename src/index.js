@@ -1,6 +1,6 @@
 import encode from './encode';
 import normalizeUrl from './normalize-url';
-import { isObject } from './utils';
+import { isObject, isString } from './utils';
 
 export default function formatCurl(url, options) {
     const urlObject = normalizeUrl(url);
@@ -14,7 +14,7 @@ export default function formatCurl(url, options) {
     } = options || {};
 
     if (query) {
-        const q = isObject(query) ? encode(query) : q;
+        const q = isObject(query) ? encode(query) : query;
         urlObject.search = q;
     }
 
@@ -22,7 +22,7 @@ export default function formatCurl(url, options) {
 
     if (isObject(headers)) {
         const headersStrings = Object.keys(headers).map(headerName => {
-            const headerValue = typeof headers[headerName] === 'string'
+            const headerValue = isString(headers[headerName])
                 ? headers[headerName].replace(/"/g, '\"')
                 : headers[headerName];
 
@@ -35,11 +35,11 @@ export default function formatCurl(url, options) {
     }
 
     if (body) {
-        const newBody = typeof body === 'string' ? body : JSON.stringify(body);
+        const newBody = isString(body) ? body : JSON.stringify(body);
         curl += ` --data '${newBody.replace(/"/g, '\"')}'`;
     }
 
-    if (typeof method === 'string') {
+    if (isString(method)) {
         curl += ` -X ${method.toUpperCase()}`;
     }
 

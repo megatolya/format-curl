@@ -2,10 +2,15 @@ function stringify(value) {
     switch (typeof value) {
     case 'boolean':
         return value ? 'true' : 'false';
+
     case 'number':
         return isFinite(value) ? value : '';
+
     case 'string':
         return value;
+
+    default:
+        return '';
     }
 }
 
