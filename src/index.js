@@ -1,86 +1,26 @@
-'use strict';
-
-import { stringify } from 'querystring';
+import encode from './encode';
+import normalizeUrl from './normalize-url';
+import { isObject } from './utils';
 
 export default function formatCurl(url, options) {
-    let result = 'curl';
+    const urlObject = normalizeUrl(url);
 
     const {
         args,
         body,
         headers,
         method,
+        query,
     } = options || {};
 
-    if (Array.isArray(args) && args.length > 0) {
-        result = `${result} ${args.join(' ')}`;
+    if (query) {
+        const q = isObject(query) ? encode(query) : q;
+        urlObject.search = q;
     }
 
-    if (typeof url === 'string') {
-        result += ` "${url}"`;
-    } else if (typeof URL === 'function' && url instanceof URL) { // WHATWG URL
-        result += ` "${url.toString()}"`;
-    } else if (url !== null && typeof url === 'object') { // urlObject
-        let auth = url.auth || '';
-        if (auth) {
-            auth += '@';
-        }
+    let curl = `curl "${urlObject.toString()}"`;
 
-        const hostname = url.hostname || '';
-        let hash = url.hash || '';
-        let host = url.host || '';
-        let pathname = url.pathname || '';
-        let protocol = url.protocol || '';
-        let query = url.query || '';
-
-        if (host) {
-            host = auth + host;
-        } else if (hostname) {
-            host = auth + (
-                hostname.indexOf(':') > -1
-                    ? `[${hostname}]` // ipv6
-                    : hostname
-            );
-
-            if (url.port) {
-                host += `:${url.port}`;
-            }
-        }
-
-        if (typeof query === 'object') {
-            query = stringify(query);
-        }
-
-        let search = url.search || (query && (`?${query}`)) || '';
-
-        if (protocol && protocol.charCodeAt(protocol.length - 1) !== 58) { /* : */
-            protocol += ':';
-        }
-
-        if (url.slashes || /^(file|ftp|gopher|https?):?$/.test(protocol)) {
-            if (
-                (url.slashes || host) &&
-                pathname && pathname.charCodeAt(0) !== 47
-            ) {
-                pathname = `/${pathname}`;
-            }
-
-            host = `//${host}`;
-        }
-
-        if (hash && hash.charCodeAt(0) !== 35) {
-            hash = `#${hash}`;
-        }
-
-        if (search && search.charCodeAt(0) !== 63) {
-            search = `?${search}`;
-        }
-
-        const stringUrl = (protocol + host + pathname + search + hash) || url.href || '';
-        result += ` "${stringUrl}"`;
-    }
-
-    if (headers !== null && typeof headers === 'object') {
+    if (isObject(headers)) {
         const headersStrings = Object.keys(headers).map(headerName => {
             const headerValue = typeof headers[headerName] === 'string'
                 ? headers[headerName].replace(/"/g, '\"')
@@ -90,18 +30,22 @@ export default function formatCurl(url, options) {
         });
 
         if (headersStrings.length > 0) {
-            result += ` ${headersStrings.join(' ')}`;
+            curl += ` ${headersStrings.join(' ')}`;
         }
     }
 
     if (body) {
         const newBody = typeof body === 'string' ? body : JSON.stringify(body);
-        result += ` --data '${newBody.replace(/"/g, '\"')}'`;
+        curl += ` --data '${newBody.replace(/"/g, '\"')}'`;
     }
 
     if (typeof method === 'string') {
-        result += ` -X ${method.toUpperCase()}`;
+        curl += ` -X ${method.toUpperCase()}`;
     }
 
-    return result;
+    if (Array.isArray(args) && args.length > 0) {
+        curl = `${curl} ${args.join(' ')}`;
+    }
+
+    return curl;
 }

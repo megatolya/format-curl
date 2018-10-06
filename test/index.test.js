@@ -5,11 +5,11 @@ import url from 'url';
 
 const testCases = [
     [
-        'curl "https://myhost.com"',
+        'curl "https://myhost.com/"',
         'https://myhost.com',
     ],
     [
-        'curl -v "https://myhost.com" -H "accept: application/json" -H "content-type: application/json" --data \'{"foo":"bar"}\' -X POST',
+        'curl "https://myhost.com/" -H "accept: application/json" -H "content-type: application/json" --data \'{"foo":"bar"}\' -X POST -v',
         'https://myhost.com',
         {
             args: ['-v'],
@@ -31,21 +31,21 @@ const testCases = [
         url.parse('https://myhost.com#foo'),
     ],
     [
-        'curl "https://myhost.com"',
+        'curl "https://myhost.com/"',
         {
             protocol: 'https',
             host: 'myhost.com',
         },
     ],
     [
-        'curl "https://myhost.com"',
+        'curl "https://myhost.com/"',
         {
             protocol: 'https:',
             host: 'myhost.com',
         },
     ],
     [
-        'curl "https://abc.com"',
+        'curl "https://abc.com/"',
         {
             protocol: 'https',
             host: 'abc.com',
@@ -54,14 +54,14 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com"',
+        'curl "https://myhost.com/"',
         {
             protocol: 'https',
             hostname: 'myhost.com',
         },
     ],
     [
-        'curl "https://myhost.com:80"',
+        'curl "https://myhost.com:80/"',
         {
             protocol: 'https',
             hostname: 'myhost.com',
@@ -77,7 +77,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com"',
+        'curl "https://myhost.com/"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -85,7 +85,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com?foo=bar"',
+        'curl "https://myhost.com/?foo=bar"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -95,7 +95,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com?foo=bar"',
+        'curl "https://myhost.com/?foo=bar"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -103,7 +103,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com?foo=bar"',
+        'curl "https://myhost.com/?foo=bar"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -111,7 +111,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com?foo=bar"',
+        'curl "https://myhost.com/?foo=bar"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -119,7 +119,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com#abc"',
+        'curl "https://myhost.com/#abc"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -127,7 +127,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com#abc"',
+        'curl "https://myhost.com/#abc"',
         {
             protocol: 'https',
             host: 'myhost.com',
@@ -137,21 +137,21 @@ const testCases = [
 
     // options
     [
-        'curl -v -L "https://myhost.com"',
+        'curl "https://myhost.com/" -v -L',
         'https://myhost.com',
         {
             args: ['-v', '-L'],
         },
     ],
     [
-        'curl "https://myhost.com" -X POST',
+        'curl "https://myhost.com/" -X POST',
         'https://myhost.com',
         {
             method: 'post',
         },
     ],
     [
-        'curl "https://myhost.com" --data \'foo=bar\' -X POST',
+        'curl "https://myhost.com/" --data \'foo=bar\' -X POST',
         'https://myhost.com',
         {
             method: 'post',
@@ -159,7 +159,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com" --data \'{"foo":"bar"}\' -X POST',
+        'curl "https://myhost.com/" --data \'{"foo":"bar"}\' -X POST',
         'https://myhost.com',
         {
             method: 'post',
@@ -169,7 +169,7 @@ const testCases = [
         },
     ],
     [
-        'curl "https://myhost.com" -H "x-header: test" -H "x-header2: test2"',
+        'curl "https://myhost.com/" -H "x-header: test" -H "x-header2: test2"',
         'https://myhost.com',
         {
             headers: {
