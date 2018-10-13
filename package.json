@@ -37,5 +37,8 @@
         "lint": "eslint {src,test} *.js",
         "shipit": "npm run build && npm publish --tag beta",
         "test": "jest"
+    },
+    "dependencies": {
+        "url-parse": "^1.4.3"
     }
 }
