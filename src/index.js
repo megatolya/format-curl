@@ -16,8 +16,13 @@ export default function formatCurl(url, options) {
 
   const urlInstance = normalizeUrl(url);
 
-  if (isObject(query) || isString(query)) {
+  if (isString(query)) {
+    urlInstance.search = query;
+  }
+
+  if (isObject(query)) {
     urlInstance.query = query;
+    urlInstance.search = null;
   }
 
   let result = `curl "${urlInstance.toString()}"`;
