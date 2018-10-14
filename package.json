@@ -19,6 +19,7 @@
         "url": "https://github.com/megatolya/format-curl/issues"
     },
     "homepage": "https://github.com/megatolya/format-curl#readme",
+    "dependencies": {},
     "devDependencies": {
         "babel-preset-env": "^1.7.0",
         "colors": "^1.1.2",
@@ -37,8 +38,5 @@
         "lint": "eslint {src,test} *.js",
         "shipit": "npm run build && npm publish --tag beta",
         "test": "jest"
-    },
-    "dependencies": {
-        "url-parse": "^1.4.3"
     }
 }
