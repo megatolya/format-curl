@@ -72,4 +72,24 @@ describe('format-curl', () => {
             expect(curl).toBe('curl "http://mydomain.com/?d=d"');
         });
     });
+
+    describe('common cases', () => {
+        it('empty call', () => {
+            const curl = formatCurl();
+
+            expect(curl).toBe('curl "http://localhost/"');
+        });
+
+        it('only host', () => {
+            const curl = formatCurl('my-host');
+
+            expect(curl).toBe('curl "http://my-host/"');
+        });
+
+        it('only pathname', () => {
+            const curl = formatCurl('/abc');
+
+            expect(curl).toBe('curl "http://localhost/abc"');
+        });
+    });
 });
