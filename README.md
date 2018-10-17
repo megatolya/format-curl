@@ -1,9 +1,7 @@
 # format-curl
-
 Format curl execution from request params
 
 ## Installation
-
 from npm
 
 ```shell
@@ -14,11 +12,25 @@ from unpkg
 
 ```html
 <script src="https://unpkg.com/format-curl@2.0.0/dist/index.js"></script>
+<!-- or -->
 <script src="https://unpkg.com/format-curl@2.0.0/dist/index.min.js"></script>
+<!-- example -->
+<script type="text/javascript">
+const curl = window.formatCurl({
+    href: 'http://my-host/pathname/',
+},
+{
+    args: ['-v'],
+    headers: {
+        'accept': '*/*',
+    },
+});
+
+console.log(curl);
+</script>
 ```
 
 ## Usage
-
 ```js
 import curl from 'format-curl';
 
@@ -50,7 +62,9 @@ Returns a string with a resulting curl command.
 ##### url
 Type: `string` `Object`
 
-The URL to request, as a string or a [WHATWG URL](https://nodejs.org/api/url.html#url_class_url).
+The URL to request, as a string, a [WHATWG URL](https://nodejs.org/api/url.html#url_class_url) or [https.request options](https://nodejs.org/api/https.html#https_https_request_options_callback).
+
+In case you provide partial or empty url it will use base url `http://localhost/` to fullfil it.
 
 ##### options
 Type: `Object`
