@@ -3,19 +3,27 @@
     "test": {
       "presets": [
         ["env", {
+          "targets": {
+            "browsers": ["ie >= 11"]
+          },
           "exclude": [
             "babel-plugin-transform-es2015-typeof-symbol"
-          ]
+          ],
+          "loose": true
         }]
       ]
     }
   },
   "presets": [
     ["env", {
+      "targets": {
+        "browsers": ["ie >= 11"]
+      },
       "exclude": [
         "babel-plugin-transform-es2015-typeof-symbol"
       ],
-      "modules": false
+      "modules": false,
+      "loose": true
     }]
   ]
 }
