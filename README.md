@@ -11,9 +11,9 @@ npm install --save format-curl
 from unpkg
 
 ```html
-<script src="https://unpkg.com/format-curl@2.0.0/dist/index.js"></script>
+<script src="https://unpkg.com/format-curl@latest/dist/index.js"></script>
 <!-- or -->
-<script src="https://unpkg.com/format-curl@2.0.0/dist/index.min.js"></script>
+<script src="https://unpkg.com/format-curl@latest/dist/index.min.js"></script>
 <!-- example -->
 <script type="text/javascript">
 const curl = window.formatCurl({
