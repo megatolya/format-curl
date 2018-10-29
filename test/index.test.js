@@ -43,6 +43,29 @@ describe('format-curl', () => {
         });
     });
 
+
+    describe('json', () => {
+        it('should add "accept" and "content-type" headers', () => {
+            const curl = formatCurl('http://mydomain.com/', {
+                json: true,
+            });
+
+            expect(curl).toBe('curl "http://mydomain.com/" -H "accept: application/json" -H "content-type: application/json"');
+        });
+
+        it('should not modify existing headers', () => {
+            const curl = formatCurl('http://mydomain.com/', {
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'text/plain',
+                },
+                json: true,
+            });
+
+            expect(curl).toBe('curl "http://mydomain.com/" -H "Accept: */*" -H "Content-Type: text/plain"');
+        });
+    });
+
     describe('method', () => {
         it('should add method', () => {
             const curl = formatCurl('http://mydomain.com', {
