@@ -28,6 +28,8 @@ export default function formatCurl(url, options) {
     const computedHeaders = Object.assign({}, headers);
 
     if (json) {
+        // header names are case insensetive, so we have to normalize them first
+        // in order to check for their existance.
         const headersMap = Object.keys(computedHeaders).reduce((m, headerName) => {
             m[headerName.toLowerCase()] = headerName;
             return m;
