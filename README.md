@@ -76,7 +76,7 @@ Type: `Object`
 Request headers.
 
 ###### json
-Type: 'boolean'
+Type: `boolean`
 
 Helper for json format specific headers. Adds `accept` and `content-type` headers with `application/json` value in case they aren't presented.
 
