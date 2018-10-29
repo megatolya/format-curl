@@ -43,7 +43,6 @@ describe('format-curl', () => {
         });
     });
 
-
     describe('json', () => {
         it('should add "accept" and "content-type" headers', () => {
             const curl = formatCurl('http://mydomain.com/', {
@@ -56,7 +55,7 @@ describe('format-curl', () => {
         it('should not modify existing headers', () => {
             const curl = formatCurl('http://mydomain.com/', {
                 headers: {
-                    Accept: '*/*',
+                    'Accept': '*/*',
                     'Content-Type': 'text/plain',
                 },
                 json: true,

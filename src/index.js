@@ -33,7 +33,7 @@ export default function formatCurl(url, options) {
             return m;
         }, {});
 
-        const accept = headersMap['accept'] || 'accept';
+        const accept = headersMap.accept || 'accept';
         const contentType = headersMap['content-type'] || 'content-type';
 
         if (isUndefined(computedHeaders[accept])) {
@@ -50,7 +50,10 @@ export default function formatCurl(url, options) {
     if (headersNames.length > 0) {
         const headerString = headersNames
             .map(k => {
-                const v = isString(computedHeaders[k]) ? escapeQuote(computedHeaders[k]) : computedHeaders[k];
+                const v = isString(computedHeaders[k])
+                    ? escapeQuote(computedHeaders[k])
+                    : computedHeaders[k];
+
                 return `-H "${k}: ${v}"`;
             })
             .join(' ');
