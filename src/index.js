@@ -1,6 +1,6 @@
 import normalizeUrl from './normalize-url';
 import serializeQuery from './serialize-query';
-import { isObject, isString } from './utils';
+import { isObject, isString, isUndefined } from './utils';
 
 function escapeQuote(s) {
     return s.replace(/"/g, '\"');
@@ -11,6 +11,7 @@ export default function formatCurl(url, options) {
         args,
         body,
         headers,
+        json,
         method,
         query,
     } = options || {};
@@ -24,10 +25,37 @@ export default function formatCurl(url, options) {
 
     let result = `curl "${urlInstance.toString()}"`;
 
-    if (isObject(headers)) {
-        const headerString = Object.keys(headers)
+    const computedHeaders = Object.assign({}, headers);
+
+    if (json) {
+        // header names are case insensetive, so we have to normalize them first
+        // in order to check for their existance.
+        const headersMap = Object.keys(computedHeaders).reduce((m, headerName) => {
+            m[headerName.toLowerCase()] = headerName;
+            return m;
+        }, {});
+
+        const accept = headersMap.accept || 'accept';
+        const contentType = headersMap['content-type'] || 'content-type';
+
+        if (isUndefined(computedHeaders[accept])) {
+            computedHeaders[accept] = 'application/json';
+        }
+
+        if (isUndefined(computedHeaders[contentType])) {
+            computedHeaders[contentType] = 'application/json';
+        }
+    }
+
+    const headersNames = Object.keys(computedHeaders);
+
+    if (headersNames.length > 0) {
+        const headerString = headersNames
             .map(k => {
-                const v = isString(headers[k]) ? escapeQuote(headers[k]) : headers[k];
+                const v = isString(computedHeaders[k])
+                    ? escapeQuote(computedHeaders[k])
+                    : computedHeaders[k];
+
                 return `-H "${k}: ${v}"`;
             })
             .join(' ');

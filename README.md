@@ -1,3 +1,4 @@
+
 # format-curl
 Format curl execution from request params
 
@@ -73,6 +74,11 @@ Type: `Object`
 Type: `Object`
 
 Request headers.
+
+###### json
+Type: 'boolean'
+
+Helper for json format specific headers. Adds `accept` and `content-type` headers with `application/json` value in case they aren't presented.
 
 ###### method
 Type: `string`

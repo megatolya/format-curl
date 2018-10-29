@@ -1,6 +1,6 @@
 {
     "name": "format-curl",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "Format curl execution from request params",
     "main": "lib/index.js",
     "module": "lib/index.esm.js",

@@ -5,3 +5,7 @@ export function isObject(v) {
 export function isString(v) {
     return typeof v === 'string';
 }
+
+export function isUndefined(v) {
+    return v === undefined;
+}
