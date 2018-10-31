@@ -93,7 +93,7 @@ Request body. If you provide an object, it will be serialized via `JSON.stringif
 ###### args
 Type: `Array`
 
-Curl arguments.
+Curl arguments. Like `-vvv`, `-k`, `-L` and etc.
 
 ## Publish
 
